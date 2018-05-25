@@ -2,6 +2,7 @@
 #Frequency analysis tool by Rasmus Rendal
 
 import argparse
+import crypt_common
 import re
 
 english_frequency = {
@@ -90,8 +91,6 @@ def print_table(frequencies, sort):
         keys = sort_dict(frequencies)
         english_keys = sort_dict(english_frequency)
     m = len(keys)
-    print(keys)
-    print(len(keys))
     if m > 26:
         m = 26
     for n in range(m):
@@ -111,24 +110,14 @@ def print_table(frequencies, sort):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Count the frequency of characters in a text file')
-    parser.add_argument('text', metavar='Text', nargs='*',
-                        help='The text to parse')
-    parser.add_argument('--file', dest='file', nargs=1,
-                        help='Read text from file')
+    parser = crypt_common.add_parser_args(parser)
     parser.add_argument('--sort', dest='sort', action='store_true',
                         help="Sort the letters by frequency, instead of alphabetically")
     parser.add_argument('--ic', dest='ic', action='store_true',
                         help='Calculate the index of coincidence')
 
     args = parser.parse_args()
-    text = ""
-    if args.text:
-        text = ' '.join(args.text)
-    elif args.file:
-        with open(args.file[0], 'r') as myfile:
-            text=myfile.read().replace('\n', '')
-    else:
-        raise Exception('No text given')
+    text = crypt_common.get_text(args)
 
 
     frequency_list, total_occurences = count_occurences(text)
