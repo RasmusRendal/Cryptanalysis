@@ -12,14 +12,17 @@ if __name__ == "__main__":
     text = crypt_common.get_text(args)
     textBytes = bytes(text, 'utf-8')
     print("Hashing " + text)
+    Already_Tried = []
     for algorithm in hashlib.algorithms_available:
-        try:
-            func = getattr(hashlib, algorithm.lower())
-            hashDigest = func(textBytes).digest()
-            b64 = base64.b64encode(hashDigest).decode()
-            print(algorithm + ': ' + " "*(10-len(algorithm)) + b64)
-        except TypeError:
-            pass
-        except AttributeError:
-            pass
+        if algorithm.lower() not in Already_Tried:
+            try:
+                func = getattr(hashlib, algorithm.lower())
+                hashDigest = func(textBytes).digest()
+                b64 = base64.b64encode(hashDigest).decode()
+                print(algorithm + ': ' + " "*(10-len(algorithm)) + b64)
+                Already_Tried.append(algorithm.lower())
+            except TypeError:
+                pass
+            except AttributeError:
+                pass
 
