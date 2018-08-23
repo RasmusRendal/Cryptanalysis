@@ -8,6 +8,11 @@ def add_parser_args(parser):
     return parser
 
 
+def sort_dict(to_sort):
+    return sorted(to_sort.keys(), key=lambda k: to_sort[k], reverse=True)
+
+
+
 def get_text(args):
     text = ""
     if args.text and args.file:

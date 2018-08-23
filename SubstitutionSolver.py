@@ -1,11 +1,12 @@
 #!/usr/bin/python
 
+import Frequency
+import argparse
+import crypt_common
+
 english_2words = ['OF', 'TO', 'IN', 'IS', 'IT']
 english_3words = ['THE', 'AND', 'FOR', 'WAS', 'HIS']
 double_letters = ['L', 'E', 'S', 'O', 'T']
-
-def sort_dict(to_sort):
-    return sorted(to_sort.keys(), key=lambda k: to_sort[k], reverse=True)
 
 def get_doubles(text):
     doubles = {}
@@ -35,9 +36,9 @@ def get_best_key(*arg):
 
 
 def make_freq_key(text):
-    frequency, total = count_occurences(text)
-    freq_sorted = sort_dict(frequency)
-    english_sorted = sort_dict(english_frequency)
+    frequency, total = Frequency.count_occurences(text)
+    freq_sorted = crypt_common.sort_dict(frequency)
+    english_sorted = crypt_common.sort_dict(Frequency.english_frequency)
     key = {}
     for i in range(min(len(freq_sorted), len(english_sorted))):
         key[freq_sorted[i]] = english_sorted[i]
@@ -47,7 +48,7 @@ def make_freq_key(text):
 #Depend on the dictionary
 def make_dict_key(text):
     doubles = get_doubles(text)
-    sorted_doubles = sort_dict(doubles)
+    sorted_doubles = crypt_common.sort_dict(doubles)
     print(doubles)
     key = {}
     for i in range(min(len(double_letters), len(sorted_doubles))):
@@ -102,3 +103,22 @@ def len_word_occurences(word_occurences, length):
             to_return.append(word)
     return to_return
 
+
+def print_key(key):
+    for n in range(ord('A'), ord('Z')):
+        c = chr(n)
+        print(c, end='')
+    print('')
+    for n in range(ord('A'), ord('Z')):
+        c = chr(n)
+        print(key[c], end='')
+    print('')
+
+
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser(description="Solve substitution ciphers")
+    parser = crypt_common.add_parser_args(parser)
+    args = parser.parse_args()
+    text = crypt_common.get_text(args)
+    freq_key = make_freq_key(text)
+    print_key(freq_key)

@@ -35,39 +35,9 @@ english_frequency = {
 }
 
 
-def sort_dict(to_sort):
-    return sorted(to_sort.keys(), key=lambda k: to_sort[k], reverse=True)
-
 
 def count_occurences(text):
-    frequency_list = {
-            'A': 0,
-            'B': 0,
-            'C': 0,
-            'D': 0,
-            'E': 0,
-            'F': 0,
-            'G': 0,
-            'H': 0,
-            'I': 0,
-            'J': 0,
-            'K': 0,
-            'L': 0,
-            'M': 0,
-            'N': 0,
-            'O': 0,
-            'P': 0,
-            'Q': 0,
-            'R': 0,
-            'S': 0,
-            'T': 0,
-            'U': 0,
-            'V': 0,
-            'W': 0,
-            'X': 0,
-            'Y': 0,
-            'Z': 0,
-    }
+    frequency_list = {}
     regex = re.compile('[^a-zA-Z ]')
     text = regex.sub('', text)
     text = text.upper()
@@ -76,9 +46,17 @@ def count_occurences(text):
     for c in text:
         if c in frequency_list:
             frequency_list[c] += 1
-        if c is not ' ':
-            total_occurences += 1
-    return (frequency_list, total_occurences)
+        else:
+            frequency_list[c] = 1
+    return frequency_list
+
+
+def count_total(frequency_list, to_count):
+    total = 0
+    for i in to_count:
+        if i in frequency_list:
+            total += frequency_list[i]
+    return total
 
 
 def print_table(frequencies, sort):
@@ -88,8 +66,8 @@ def print_table(frequencies, sort):
         keys = list(frequencies.keys())
         english_keys = list(english_frequency.keys())
     else:
-        keys = sort_dict(frequencies)
-        english_keys = sort_dict(english_frequency)
+        keys = crypt_common.sort_dict(frequencies)
+        english_keys = crypt_common.sort_dict(english_frequency)
     m = len(keys)
     if m > 26:
         m = 26

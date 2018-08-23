@@ -1,17 +1,56 @@
 #!/usr/bin/python
 
 from cryptography.fernet import Fernet
+from cryptography.hazmat.primitives.serialization import load_pem_private_key
+from cryptography.hazmat.backends import default_backend
+from  cryptography.hazmat.primitives.asymmetric import padding
 import argparse
 import crypt_common
 
 def decode_fernet(key, text):
     f = Fernet(key)
-    b = b"gAAAAABaDDCRPXCPdGDcBKFqEFz9zvnaiLUbWHqxXqScTTYWfZJcz-WhH7rf_fYHo67zGzJAdkrwATuMptY-nJmU-eYG3HKLO9WDLmO27sex1-R85CZEFCU="
     b = bytes(text, "utf-8")
     decrypted = f.decrypt(b)
     print("Fernat decryption:")
     print(decrypted)
     return decrypted
+
+
+def decode_xor(key, text):
+    key = bytes(key)
+    text = bytes(text)
+    output = bytearray()
+    for i in range(len(text)):
+        i2 = i
+        while i2 > len(key)-1:
+            i2 -= len(key)
+        output.append(key[i2] ^ text[i])
+    return output
+
+
+def decode_rsa(key, text):
+    priv_key = load_pem_private_key(bytes(key), password=None, backend=default_backend())
+    plaintext = priv_key.decrypt(text, padding.OAEP(
+        mgf=padding.MGF1(algorithm=hashes.SHA256()),
+        algorithm=hashes.SHA256(),
+        label=None
+        )
+    )
+    print(plaintext)
+
+
+def try_all(key, text, xor=True):
+    if xor:
+        print(decode_xor(key, text))
+
+    try:
+        print(decode_fernet(key, text))
+    except:
+        print("Fernet did not work")
+    try:
+        print(decode_rsa(key, text))
+    except:
+        print("RSA did not work")
 
 
 if __name__ == "__main__":
@@ -24,4 +63,4 @@ if __name__ == "__main__":
     if not args.key or not args.text:
         raise Exception("Key and text are needed")
 
-    decode_fernet(args.key, args.text)
+    try_all(args.key, args.text)
