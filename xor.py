@@ -4,7 +4,7 @@ import itertools
 def xor(string, key):
     bytes_return = bytearray()
     for i in zip(string, itertools.cycle(key)):
-        bytes_return.append(i[0]^i[1])
+        bytes_return.append(ord(i[0])^ord(i[1]))
     return bytes(bytes_return)
 
 

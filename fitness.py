@@ -1,20 +1,35 @@
-from Frequency import english_frequency, count_occurences, count_total
-
-english_2words = ['OF', 'TO', 'IN', 'IS', 'IT']
-english_3words = ['THE', 'AND', 'FOR', 'WAS', 'HIS']
-double_letters = ['L', 'E', 'S', 'O', 'T']
+import frequency
+import math
 
 
 #The coeffecient of determination, or r^2
-def frequency_cod(text):
-    occurences = count_occurences(text)
-    total = count_total(occurences, [])
+def ngram_logs(text, n):
+    frequency_list, total_ngrams = frequency.count_ngrams(text, n)
+    probabilities = {}
+    for ngram in frequency_list.keys():
+        probabilities[ngram] = -math.log(total_ngrams/frequency_list[ngram])
+    probabilities['unknown'] = math.log(total_ngrams/1)
+    return probabilities
 
 
-
-def text_fitness(text):
+def qgram_fitness(text, probs):
     fitness = 0
-    for word in english_2words + english_3words:
-        fitness += text.count(word)
-    return fitness/len(text)
+    qgrams = frequency.get_ngrams(text, 4)
+    for qgram in qgrams:
+        if qgram in probs:
+            fitness += probs[qgram]
+        else:
+            fitness += probs['unknown']
+    return fitness
 
+
+def get_highest_fitness(text, fitness_func, keys, decode, probs):
+    highest_fitness = 100000
+    highest_key = ''
+    for key in keys:
+        p = decode(text, key)
+        fitness = fitness_func(p, probs)
+        if fitness < highest_fitness:
+            highest_fitness = fitness
+            highest_key = key
+    return highest_key
