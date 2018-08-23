@@ -23,6 +23,7 @@ def qgram_fitness(text, probs):
     return fitness
 
 
+#If you know the key, like a single-character XOR like in Cryptopals 1-3, this might be useful
 def get_highest_fitness(text, fitness_func, keys, decode, probs):
     highest_fitness = 100000
     highest_key = ''

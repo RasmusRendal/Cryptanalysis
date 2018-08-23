@@ -107,12 +107,21 @@ def len_word_occurences(word_occurences, length):
 def print_key(key):
     for n in range(ord('A'), ord('Z')):
         c = chr(n)
-        print(c, end='')
+        print(c)
     print('')
     for n in range(ord('A'), ord('Z')):
         c = chr(n)
         print(key[c], end='')
     print('')
+
+
+def hamming_distance(text1, text2):
+    distance = 0
+    for i in zip(text1, text2):
+        if i[0] is not i[1]:
+            distance += 1
+    distance += abs(len(text1) - len(text2))
+    return distance
 
 
 if __name__ == "__main__":
