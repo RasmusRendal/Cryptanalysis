@@ -1,8 +1,9 @@
-#Python-cryptanalysis
+# Python-cryptanalysis
+
 
 Python-cryptanalysis is a cool library.
 
-##Code examples
+## Code examples
 Please note that these are basically the cryptopal challenges. If you want to solve those, don't look because there's spoilers here. But also, you should do it from scratch to learn more.
 ```python
 #Given is a ciphertext encoded with a one-bit XOR. Find the correct key
