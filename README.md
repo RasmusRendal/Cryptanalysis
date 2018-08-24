@@ -21,3 +21,18 @@ real_key = fitness.get_highest_fitness(ciphertext, keys, xor.xor)
 print('The key is: ' + str(real_key))
 print('And the plaintext message is: ' + xor.xor(ciphertext, real_key))
 ```
+
+```python
+# Gives in is a ciphertext as a XOR. Find the correct key
+
+from Cryptanalysis import *
+
+ciphertext = open('text.txt').read()
+
+key = xor.break_repeating_xor(ciphertext)
+
+print("The key is: " + key)
+print("Message:")
+print(xor.xor(ciphertext, key))
+
+```

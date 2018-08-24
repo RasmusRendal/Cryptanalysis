@@ -48,6 +48,17 @@ def mgram_fitness(ciphertext, probs):
     return fitness.ngram_fitness(ciphertext, probs, n=1)
 
 
+def vary_xor_key(ciphertext, key, probs):
+    for c in range(len(key)):
+        alt_keys = []
+        for i in range(255):
+            new_key = list(key)
+            new_key[c] = chr(i)
+            alt_keys.append("".join(new_key))
+        key = fitness.get_highest_fitness(ciphertext, alt_keys, xor)
+    return key
+
+
 def break_repeating_xor(ciphertext, qprobs=None, mprobs=None):
 
     if qprobs == None:
@@ -78,7 +89,8 @@ def break_repeating_xor(ciphertext, qprobs=None, mprobs=None):
             highest_cur_key = fitness.get_highest_fitness(block_i, single_xor_keys, xor, fitness_func=mgram_fitness, probs=mprobs)
             keys[cur_key] += highest_cur_key[0]
         cur_key += 1
-    return fitness.get_highest_fitness(ciphertext, keys, xor, fitness_func=fitness.ngram_fitness, probs=qprobs)
+    highest_key = fitness.get_highest_fitness(ciphertext, keys, xor, fitness_func=fitness.ngram_fitness, probs=qprobs)
+    return vary_xor_key(ciphertext, highest_key, qprobs)
 
 
 
