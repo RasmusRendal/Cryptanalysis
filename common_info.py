@@ -1,8 +1,6 @@
 #!/usr/bin/python
 
-import Frequency
 import argparse
-import crypt_common
 
 english_2words = ['OF', 'TO', 'IN', 'IS', 'IT']
 english_3words = ['THE', 'AND', 'FOR', 'WAS', 'HIS']
@@ -111,17 +109,8 @@ def print_key(key):
     print('')
     for n in range(ord('A'), ord('Z')):
         c = chr(n)
-        print(key[c], end='')
+        print(key[c])
     print('')
-
-
-def hamming_distance(text1, text2):
-    distance = 0
-    for i in zip(text1, text2):
-        if i[0] is not i[1]:
-            distance += 1
-    distance += abs(len(text1) - len(text2))
-    return distance
 
 
 if __name__ == "__main__":

@@ -9,6 +9,10 @@ class TestXOR(unittest.TestCase):
         self.assertEqual(xor.xor(b'yyyyyyyyyy', b'y'), '\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00')
         self.assertEqual(xor.xor(b'a', b'abe'), '\x00')
 
+    def test_get_hamming_distance(self):
+        self.assertEqual(xor.get_hamming_distance("ee", "ff"), 4)
+        self.assertEqual(xor.get_hamming_distance("this is a test", "wokka wokka!!!"), 37)
+
 
 if __name__ == '__main__':
     unittest.main()
