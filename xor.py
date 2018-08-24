@@ -75,10 +75,10 @@ def break_repeating_xor(ciphertext, qprobs=None, mprobs=None):
                 except IndexError:
                     # Sometimes the last block isn't as long as the others. Happens
                     pass
-            highest_cur_key = fitness.get_highest_fitness(block_i, mgram_fitness, single_xor_keys, xor, mprobs)
+            highest_cur_key = fitness.get_highest_fitness(block_i, single_xor_keys, xor, fitness_func=mgram_fitness, probs=mprobs)
             keys[cur_key] += highest_cur_key[0]
         cur_key += 1
-    return fitness.get_highest_fitness(ciphertext, fitness.ngram_fitness, keys, xor, qprobs)
+    return fitness.get_highest_fitness(ciphertext, keys, xor, fitness_func=fitness.ngram_fitness, probs=qprobs)
 
 
 
