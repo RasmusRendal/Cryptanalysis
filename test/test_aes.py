@@ -2,7 +2,7 @@ import unittest
 import random
 from Cryptanalysis import aes
 
-class TestXOR(unittest.TestCase):
+class TestAES(unittest.TestCase):
 
     def test_subBytes(self):
         state = []

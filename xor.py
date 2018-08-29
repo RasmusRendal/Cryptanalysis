@@ -1,7 +1,6 @@
 from __future__ import division
 import itertools
 import fitness
-import itertools
 
 
 #The hamming distance as defined here, is the number of differing bits
