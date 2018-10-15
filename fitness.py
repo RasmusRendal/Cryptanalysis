@@ -18,7 +18,7 @@ def ngram_logs(text, n):
 # Gets the fitness based on the occurences of q-grams
 def ngram_fitness(text, probs, n=4):
     fitness = 0
-    qgrams = frequency.get_ngrams(text, n)
+    qgrams = frequency.get_ngrams(text.upper(), n)
     for qgram in qgrams:
         if qgram in probs:
             fitness += probs[qgram]
@@ -28,14 +28,17 @@ def ngram_fitness(text, probs, n=4):
 
 
 def get_probs(lang='en', n=4):
-    cur_data = ""
+    return ngram_logs(get_texts(lang), n)
+
+
+def get_texts(lang='en'):
     root_dir = os.path.dirname(inspect.getfile(frequency)) + '/TextSamples/' + lang + '/'
+    cur_data = ""
     for text in os.listdir(root_dir):
         if text.endswith(".txt"):
             with open(root_dir + text, 'r') as data:
                 cur_data += '\n' + data.read()
-    return ngram_logs(cur_data, n)
-
+    return cur_data
 
 
 #If you know the key, like a single-character XOR like in Cryptopals 1-3, this might be useful
