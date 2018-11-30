@@ -99,7 +99,11 @@ def break_repeating_xor(ciphertext, qprobs=None, mprobs=None):
 def xor(string, key):
     bytes_return = bytearray()
     for i in zip(string, itertools.cycle(key)):
-        bytes_return.append(ord(i[0])^ord(i[1]))
+        i0 = i[0]
+        i1 = i[1]
+        if type(i0) is str:
+            i0 = ord(i0)
+        if type(i1) is str:
+            i1 = ord(i1)
+        bytes_return.append(i0^i1)
     return bytes(bytes_return)
-
-
