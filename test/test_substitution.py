@@ -1,4 +1,6 @@
 import unittest
+import sys, os
+sys.path.append(os.path.dirname(__file__) + "/../../")
 from Cryptanalysis import substitution
 
 class TestXOR(unittest.TestCase):

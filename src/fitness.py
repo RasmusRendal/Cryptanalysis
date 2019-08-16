@@ -32,7 +32,7 @@ def get_probs(lang='en', n=4):
 
 
 def get_texts(lang='en'):
-    root_dir = os.path.dirname(inspect.getfile(frequency)) + '/TextSamples/' + lang + '/'
+    root_dir = os.path.dirname(os.path.dirname(__file__)) + '/TextSamples/' + lang + '/'
     cur_data = ""
     for text in os.listdir(root_dir):
         if text.endswith(".txt"):
