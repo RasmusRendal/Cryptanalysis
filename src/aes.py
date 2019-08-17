@@ -65,5 +65,42 @@ def inv_shiftRows(state):
         state[i] = rotate(state[i], i)
     return state
 
-def MixCols(state):
-    pass
+def MixCol(column):
+    mixMatrix = [
+            [2, 3, 1, 1],
+            [1, 2, 3, 1],
+            [1, 1, 2, 3],
+            [3, 1, 1, 2]
+            ]
+    return RijandelVectorMatrixMul(column, mixMatrix)
+
+def inv_MixCols(column):
+    mixMatrix = [
+            [14, 11, 13, 9],
+            [9, 14, 11, 13],
+            [13, 9, 14, 11],
+            [11, 13, 9, 14]
+            ]
+    return RijandelVectorMatrixMul(column, mixMatrix)
+
+def RijandelVectorMatrixMul(vector, matrix):
+    out = [0, 0, 0, 0]
+    for i in range(4):
+        for j in range(4):
+            out[i] ^= GaloisMultiplication(matrix[i][j], vector[j])
+    return out
+
+
+def GaloisMultiplication(a, b):
+
+    p = 0
+    for i in range(8):
+        if ((b & 1) != 0):
+            p ^= a
+
+        highBitSet = ((a & 0x80) != 0)
+        a <<= 1
+        if highBitSet:
+            a ^= 0x11B
+        b >>= 1;
+    return p
