@@ -17,7 +17,7 @@ def substitution_decode(ciphertext, key):
 
 
 #Solves monoalphabetic substitution ciphers
-def substitution_solve(ciphertext, lang='en'):
+def substitution_solve(ciphertext, lang='en', max_successes=50):
     qprobs = fitness.get_probs(lang=lang)
     sfreq = frequency.count_occurences(frequency.get_ngrams(fitness.get_texts(lang), 1))
     freq = frequency.count_occurences(frequency.get_ngrams(ciphertext, 1))
@@ -29,6 +29,6 @@ def substitution_solve(ciphertext, lang='en'):
     for i in range(len(freq_sorted)):
         key[freq_sorted[i][0]] = sfreq_sorted[i][0]
 
-    key = hill_climb(ciphertext, substitution_decode, key)
+    key = hill_climb(ciphertext, substitution_decode, key, max_successes)
 
     return (substitution_decode(ciphertext, key), key)

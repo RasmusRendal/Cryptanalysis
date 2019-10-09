@@ -108,14 +108,14 @@ def print_table(frequencies, sort):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Count the frequency of characters in a text file')
-    parser = crypt_common.add_parser_args(parser)
+    parser = crypt_args.add_parser_args(parser)
     parser.add_argument('--sort', dest='sort', action='store_true',
                         help="Sort the letters by frequency, instead of alphabetically")
     parser.add_argument('--ic', dest='ic', action='store_true',
                         help='Calculate the index of coincidence')
 
     args = parser.parse_args()
-    text = crypt_common.get_text(args)
+    text = crypt_args.get_text(args)
 
 
     frequency_list, total_occurences = count_occurences(text)

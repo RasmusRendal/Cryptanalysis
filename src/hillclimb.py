@@ -2,13 +2,13 @@ from __future__ import division
 import fitness
 from random import randint
 
-def hill_climb(ciphertext, decrypt, key):
+def hill_climb(ciphertext, decrypt, key, max_successes=50):
     probs = fitness.get_probs()
     cur_fitness = fitness.ngram_fitness(decrypt(ciphertext, key), probs)
     failures = 0
     successes = 0
     attempted_mixes = []
-    while failures < 1000 and successes < 50:
+    while failures < 1000 and successes < max_successes:
         rand1 = list(key.keys())[randint(0, len(key)-1)]
         rand2 = list(key.keys())[randint(0, len(key)-1)]
         mix = (rand1, rand2)
