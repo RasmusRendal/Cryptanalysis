@@ -1,8 +1,7 @@
-#!/usr/bin/python
+#!/usr/bin/env python3
 #RSA Solver by Rasmus Rendal
 
 import argparse
-import numpy
 import math
 
 
@@ -75,16 +74,30 @@ def to_string(m, n):
             #print(hex(n), end='')
     print('')
 
+
+def lcm(a, b):
+    g, x, y = egcd(a, b)
+    return (a//g) * b
+
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Tool for solving RSA encryption")
-    parser.add_argument('--c', dest='c', type=int, nargs=1)
-    parser.add_argument('--p', dest='p', type=int, nargs=1)
-    parser.add_argument('--q', dest='q', type=int, nargs=1)
-    parser.add_argument('--dp', dest='dp', type=int, nargs=1)
-    parser.add_argument('--dq', dest='dq', type=int, nargs=1)
+    parser.add_argument('-c', dest='c', type=int, nargs=1)
+    parser.add_argument('-p', dest='p', type=int, nargs=1)
+    parser.add_argument('-q', dest='q', type=int, nargs=1)
+    parser.add_argument('-e', dest='e', type=int, nargs=1)
+    parser.add_argument('-dp', dest='dp', type=int, nargs=1)
+    parser.add_argument('-dq', dest='dq', type=int, nargs=1)
     args = parser.parse_args()
+    c = args.c[0]
     if not args.c:
         raise Exception("Message is required")
-    c = args.c[0]
     if args.c and args.p and args.q and args.dp and args.dq:
-        chinese_remainder(args.p[0], args.q[0], args.dp[0], args.dq[0], args.c[0])
+        print(chinese_remainder(args.p[0], args.q[0], args.dp[0], args.dq[0], args.c[0]))
+    elif args.c and args.p and args.q and args.e:
+        n = args.p[0] * args.q[0]
+        l = lcm(args.p[0]-1, args.q[0]-1)
+        d = modinv(args.e[0], l)
+        m = pow(c, d, n)
+        to_string(m, n)
+    else:
+        print("I don't know what to do with that input")
