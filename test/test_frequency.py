@@ -1,7 +1,7 @@
 import unittest
 import sys, os
-sys.path.append(os.path.dirname(__file__) + "/../../")
-from Cryptanalysis import frequency
+sys.path.append(os.path.dirname(__file__) + "/../")
+from cryptanalysis import frequency
 
 class test_frequency(unittest.TestCase):
 

@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 import fitness
 import frequency
 from hillclimb import hill_climb

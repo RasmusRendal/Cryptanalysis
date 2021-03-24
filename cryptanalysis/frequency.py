@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/env python3
 #Frequency analysis tool by Rasmus Rendal
 
 import argparse

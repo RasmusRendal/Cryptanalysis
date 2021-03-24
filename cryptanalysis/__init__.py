@@ -1,6 +1,5 @@
-import sys, os
-sys.path.append(os.path.dirname(__file__) + "/src/")
-
+import os, sys
+sys.path.append(os.path.dirname(__file__))
 import frequency
 import fitness
 import xor
