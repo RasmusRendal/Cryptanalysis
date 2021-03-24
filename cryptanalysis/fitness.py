@@ -4,7 +4,6 @@
 This module defines different ways to get the fitness of a candidate decryption.
 In more primitive cryptography schemes, this can allow optimization algorithms
 to find the decryption key.
-
 """
 from __future__ import division
 import frequency
@@ -52,6 +51,28 @@ def get_texts(lang='en'):
 
 # If you know the key, like a single-character XOR like in Cryptopals 1-3, this might be useful
 def get_highest_fitness(text, keys, decode, fitness_func=ngram_fitness, probs=None):
+    """Given an array of keys, find the most likely decryption.
+
+    Args:
+        text (c): The ciphertext you're trying to decode
+        keys (list): The list of keys of type k
+        decode (func): A function f: c, k -> m that decodes messages given a key
+        fitness_func (func): A function f: m, p -> i that gives a fitness value to a plaintext
+        prob (p): A data structure given as argument to the fitness function
+
+    Returns:
+        k: The best key
+
+    Example:
+        This example allows the user to get the best single-byte xor key::
+
+            import cryptanalysis
+            ciphertext = "7d7c3573677c707b71".decode('hex')
+            keys = [chr(i) for i in range(255)]
+            real_key = cryptanalysis.fitness.get_highest_fitness(ciphertext, keys, cryptanalysis.xor.xor)
+            print(cryptanalysis.xor.xor(ciphertext, real_key))
+
+    """
     if probs == None:
         probs = get_probs()
 
