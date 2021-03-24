@@ -68,6 +68,11 @@ def vary_xor_key(ciphertext, key, probs):
 
 
 def break_repeating_xor(ciphertext, qprobs=None, mprobs=None):
+    """Breaks the repeating XOR/Vigenère cipher
+
+    Args:
+        ciphertext (bytes): Your ciphertext
+    """
 
     if qprobs == None:
         qprobs = fitness.get_probs()
