@@ -6,7 +6,8 @@ import hashlib
 import base64
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description='Run all known hashing algorithms on string')
+    parser = argparse.ArgumentParser(
+        description='Run all known hashing algorithms on string')
     parser = crypt_common.add_parser_args(parser)
     args = parser.parse_args()
     text = crypt_common.get_text(args)
@@ -25,4 +26,3 @@ if __name__ == "__main__":
                 pass
             except AttributeError:
                 pass
-

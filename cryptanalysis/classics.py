@@ -21,5 +21,6 @@ def rot(ciphertext, n=13):
         out += chr(v)
     return out
 
+
 def rot13(ciphertext):
     return rot(ciphertext, 13)

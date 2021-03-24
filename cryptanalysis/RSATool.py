@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
-#RSA Solver by Rasmus Rendal
+# RSA Solver by Rasmus Rendal
 
 import argparse
 import math
 
 
-def f(x,e,m):
+def f(x, e, m):
     X = x
     E = e
     Y = 1
@@ -20,21 +20,22 @@ def f(x,e,m):
 
 
 def i2osp(x, xLen):
-        digits = []
+    digits = []
 
-        while x:
-            digits.append(int(x % 256))
-            x //= 256
-            digits.append(0)
-        return digits[::-1]
+    while x:
+        digits.append(int(x % 256))
+        x //= 256
+        digits.append(0)
+    return digits[::-1]
+
 
 def os2ip(X):
-        xLen = len(X)
-        X = X[::-1]
-        x = 0
-        for i in range(xLen):
-            x += X[i] * 256^i
-        return x
+    xLen = len(X)
+    X = X[::-1]
+    x = 0
+    for i in range(xLen):
+        x += X[i] * 256 ^ i
+    return x
 
 
 def egcd(a, b):
@@ -43,6 +44,7 @@ def egcd(a, b):
     else:
         g, y, x = egcd(b % a, a)
         return (g, x - (b // a) * y, y)
+
 
 def modinv(a, m):
     g, x, y = egcd(a, m)
@@ -64,6 +66,7 @@ def chinese_remainder(p, q, dp, dq, c):
     to_string(m, p*q)
     print(m)
 
+
 def to_string(m, n):
     keyLength = n.bit_length()+5
     string = i2osp(m, keyLength)
@@ -79,8 +82,10 @@ def lcm(a, b):
     g, x, y = egcd(a, b)
     return (a//g) * b
 
+
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="Tool for solving RSA encryption")
+    parser = argparse.ArgumentParser(
+        description="Tool for solving RSA encryption")
     parser.add_argument('-c', dest='c', type=int, nargs=1)
     parser.add_argument('-p', dest='p', type=int, nargs=1)
     parser.add_argument('-q', dest='q', type=int, nargs=1)
@@ -92,7 +97,8 @@ if __name__ == "__main__":
     if not args.c:
         raise Exception("Message is required")
     if args.c and args.p and args.q and args.dp and args.dq:
-        print(chinese_remainder(args.p[0], args.q[0], args.dp[0], args.dq[0], args.c[0]))
+        print(chinese_remainder(
+            args.p[0], args.q[0], args.dp[0], args.dq[0], args.c[0]))
     elif args.c and args.p and args.q and args.e:
         n = args.p[0] * args.q[0]
         l = lcm(args.p[0]-1, args.q[0]-1)

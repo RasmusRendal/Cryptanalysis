@@ -17,10 +17,11 @@ def substitution_decode(ciphertext, key):
     return output_text
 
 
-#Solves monoalphabetic substitution ciphers
+# Solves monoalphabetic substitution ciphers
 def substitution_solve(ciphertext, lang='en', max_successes=50):
     qprobs = fitness.get_probs(lang=lang)
-    sfreq = frequency.count_occurences(frequency.get_ngrams(fitness.get_texts(lang), 1))
+    sfreq = frequency.count_occurences(
+        frequency.get_ngrams(fitness.get_texts(lang), 1))
     freq = frequency.count_occurences(frequency.get_ngrams(ciphertext, 1))
 
     sfreq_sorted = sorted(sfreq.items(), key=lambda t: -t[1])

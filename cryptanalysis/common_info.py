@@ -6,6 +6,7 @@ english_2words = ['OF', 'TO', 'IN', 'IS', 'IT']
 english_3words = ['THE', 'AND', 'FOR', 'WAS', 'HIS']
 double_letters = ['L', 'E', 'S', 'O', 'T']
 
+
 def get_doubles(text):
     doubles = {}
     for word in text.split(' '):
@@ -32,7 +33,6 @@ def get_best_key(*arg):
     return best_key
 
 
-
 def make_freq_key(text):
     frequency, total = Frequency.count_occurences(text)
     freq_sorted = crypt_common.sort_dict(frequency)
@@ -43,7 +43,7 @@ def make_freq_key(text):
     return key
 
 
-#Depend on the dictionary
+# Depend on the dictionary
 def make_dict_key(text):
     doubles = get_doubles(text)
     sorted_doubles = crypt_common.sort_dict(doubles)
@@ -52,7 +52,6 @@ def make_dict_key(text):
     for i in range(min(len(double_letters), len(sorted_doubles))):
         key[sorted_doubles[i]] = double_letters[i]
     return key
-
 
 
 def decode_text(text):
@@ -84,6 +83,7 @@ def text_fitness(text):
     for word in english_2words + english_3words:
         fitness += text.count(word)
     return fitness/len(text)
+
 
 def count_word_occurences(text):
     word_occurences = {}

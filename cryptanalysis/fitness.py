@@ -5,7 +5,7 @@ import inspect
 import os
 
 
-#The coeffecient of determination, or r^2
+# The coeffecient of determination, or r^2
 def ngram_logs(text, n):
     frequency_list, total_ngrams = frequency.count_ngrams(text, n)
     probabilities = {}
@@ -32,7 +32,8 @@ def get_probs(lang='en', n=4):
 
 
 def get_texts(lang='en'):
-    root_dir = os.path.dirname(os.path.dirname(__file__)) + '/TextSamples/' + lang + '/'
+    root_dir = os.path.dirname(os.path.dirname(
+        __file__)) + '/TextSamples/' + lang + '/'
     cur_data = ""
     for text in os.listdir(root_dir):
         if text.endswith(".txt"):
@@ -41,7 +42,7 @@ def get_texts(lang='en'):
     return cur_data
 
 
-#If you know the key, like a single-character XOR like in Cryptopals 1-3, this might be useful
+# If you know the key, like a single-character XOR like in Cryptopals 1-3, this might be useful
 def get_highest_fitness(text, keys, decode, fitness_func=ngram_fitness, probs=None):
     if probs == None:
         probs = get_probs()

@@ -3,7 +3,7 @@ import itertools
 import fitness
 
 
-#The hamming distance as defined here, is the number of differing bits
+# The hamming distance as defined here, is the number of differing bits
 def get_hamming_distance(s1, s2):
     assert(len(s1) == len(s2))
     distance = 0
@@ -14,7 +14,6 @@ def get_hamming_distance(s1, s2):
         c1 = "0"*(8-len(c1)) + c1
         distance += sum(b0 != b1 for b0, b1 in zip(c0, c1))
     return distance
-
 
 
 def get_keysize_candidates(ciphertext, candidate_num=4, range_min=1, range_max=40):
@@ -76,7 +75,7 @@ def break_repeating_xor(ciphertext, qprobs=None, mprobs=None):
     for n in keysize_candidates:
         keys.append('')
         blocks = list(ciphertext[i:n+i] for i in range(0, len(ciphertext), n))
-        #Break the ciphertext into blocks, and solve them one char at a time
+        # Break the ciphertext into blocks, and solve them one char at a time
         for i in range(n):
             block_i = ""
             for block in blocks:
@@ -85,17 +84,16 @@ def break_repeating_xor(ciphertext, qprobs=None, mprobs=None):
                 except IndexError:
                     # Sometimes the last block isn't as long as the others. Happens
                     pass
-            highest_cur_key = fitness.get_highest_fitness(block_i, single_xor_keys, xor, fitness_func=mgram_fitness, probs=mprobs)
+            highest_cur_key = fitness.get_highest_fitness(
+                block_i, single_xor_keys, xor, fitness_func=mgram_fitness, probs=mprobs)
             keys[cur_key] += highest_cur_key[0]
         cur_key += 1
-    highest_key = fitness.get_highest_fitness(ciphertext, keys, xor, fitness_func=fitness.ngram_fitness, probs=qprobs)
+    highest_key = fitness.get_highest_fitness(
+        ciphertext, keys, xor, fitness_func=fitness.ngram_fitness, probs=qprobs)
     return vary_xor_key(ciphertext, highest_key, qprobs)
 
 
-
-
-
-#Runs an xor on the two bytes objects
+# Runs an xor on the two bytes objects
 def xor(string, key):
     bytes_return = bytearray()
     for i in zip(string, itertools.cycle(key)):
@@ -105,5 +103,5 @@ def xor(string, key):
             i0 = ord(i0)
         if type(i1) is str:
             i1 = ord(i1)
-        bytes_return.append(i0^i1)
+        bytes_return.append(i0 ^ i1)
     return bytes(bytes_return)

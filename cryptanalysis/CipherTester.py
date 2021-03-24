@@ -3,9 +3,10 @@
 from cryptography.fernet import Fernet
 from cryptography.hazmat.primitives.serialization import load_pem_private_key
 from cryptography.hazmat.backends import default_backend
-from  cryptography.hazmat.primitives.asymmetric import padding
+from cryptography.hazmat.primitives.asymmetric import padding
 import argparse
 import crypt_common
+
 
 def decode_fernet(key, text):
     f = Fernet(key)
@@ -29,12 +30,13 @@ def decode_xor(key, text):
 
 
 def decode_rsa(key, text):
-    priv_key = load_pem_private_key(bytes(key), password=None, backend=default_backend())
+    priv_key = load_pem_private_key(
+        bytes(key), password=None, backend=default_backend())
     plaintext = priv_key.decrypt(text, padding.OAEP(
         mgf=padding.MGF1(algorithm=hashes.SHA256()),
         algorithm=hashes.SHA256(),
         label=None
-        )
+    )
     )
     print(plaintext)
 
@@ -54,7 +56,8 @@ def try_all(key, text, xor=True):
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description='Try decryption with a bunch of different algorithms')
+    parser = argparse.ArgumentParser(
+        description='Try decryption with a bunch of different algorithms')
     parser.add_argument('--key', dest='key', help='The encryption key')
     parser.add_argument('--text', dest='text', help='The encrypted text')
 

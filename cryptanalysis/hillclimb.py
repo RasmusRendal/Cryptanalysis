@@ -2,6 +2,7 @@ from __future__ import division
 import fitness
 from random import randint
 
+
 def hill_climb(ciphertext, decrypt, key, max_successes=50):
     probs = fitness.get_probs()
     cur_fitness = fitness.ngram_fitness(decrypt(ciphertext, key), probs)
@@ -16,7 +17,8 @@ def hill_climb(ciphertext, decrypt, key, max_successes=50):
             key2 = dict(key)
             key2[rand1] = key[rand2]
             key2[rand2] = key[rand1]
-            new_fitness = fitness.ngram_fitness(decrypt(ciphertext, key2), probs)
+            new_fitness = fitness.ngram_fitness(
+                decrypt(ciphertext, key2), probs)
             if new_fitness > cur_fitness:
                 cur_fitness = new_fitness
                 key = key2
