@@ -3,8 +3,18 @@ import itertools
 import fitness
 
 
-# The hamming distance as defined here, is the number of differing bits
 def get_hamming_distance(s1, s2):
+    """Compute the hamming distance between two strings
+
+    The Hamming distance is the number of bits that differ
+    between the two strings.
+
+    Args:
+        s1 (str)
+        s2 (str)
+
+    Returns:
+        int"""
     assert(len(s1) == len(s2))
     distance = 0
     for c in zip(s1, s2):
@@ -93,8 +103,19 @@ def break_repeating_xor(ciphertext, qprobs=None, mprobs=None):
     return vary_xor_key(ciphertext, highest_key, qprobs)
 
 
-# Runs an xor on the two bytes objects
 def xor(string, key):
+    """Takes the XOR of a string using key.
+
+    If the string is longer than the key, the
+    key is repeated to fit. The function
+    also accepts strings
+
+    Args:
+        string (bytes): The ciphertext
+        key (bytes): The key
+
+    Returns:
+        bytes: The de/en-crypted text"""
     bytes_return = bytearray()
     for i in zip(string, itertools.cycle(key)):
         i0 = i[0]

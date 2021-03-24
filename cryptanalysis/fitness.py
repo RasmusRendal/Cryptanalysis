@@ -1,3 +1,11 @@
+#!/usr/bin/env python3
+"""Module for computing the fitness of strings
+
+This module defines different ways to get the fitness of a candidate decryption.
+In more primitive cryptography schemes, this can allow optimization algorithms
+to find the decryption key.
+
+"""
 from __future__ import division
 import frequency
 import math
