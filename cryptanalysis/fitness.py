@@ -23,8 +23,10 @@ def ngram_logs(text, n):
 
 
 # Gets the fitness based on the occurences of q-grams
-def ngram_fitness(text, probs, n=4):
+def ngram_fitness(text: str, probs, n=4):
     fitness = 0
+    if len(text) < n:
+        return 0
     qgrams = frequency.get_ngrams(text.upper(), n)
     for qgram in qgrams:
         if qgram in probs:
@@ -49,7 +51,6 @@ def get_texts(lang='en'):
     return cur_data
 
 
-# If you know the key, like a single-character XOR like in Cryptopals 1-3, this might be useful
 def get_highest_fitness(text, keys, decode, fitness_func=ngram_fitness, probs=None):
     """Given an array of keys, find the most likely decryption.
 

@@ -16,9 +16,9 @@ class TestXOR(unittest.TestCase):
         self.assertEqual(xor.xor("abe", b'abe'), b'\x00\x00\x00')
 
     def test_get_hamming_distance(self):
-        self.assertEqual(xor.get_hamming_distance("ee", "ff"), 4)
+        self.assertEqual(xor.get_hamming_distance(b"ee", b"ff"), 4)
         self.assertEqual(xor.get_hamming_distance(
-            "this is a test", "wokka wokka!!!"), 37)
+            b"this is a test", b"wokka wokka!!!"), 37)
 
 
 if __name__ == '__main__':

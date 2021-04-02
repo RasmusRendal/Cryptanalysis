@@ -3,30 +3,26 @@ import itertools
 import fitness
 
 
-def get_hamming_distance(s1, s2):
-    """Compute the hamming distance between two strings
+def get_hamming_distance(s1: bytes, s2: bytes) -> int:
+    """Compute the hamming distance between two bytestrings
 
     The Hamming distance is the number of bits that differ
     between the two strings.
-
-    Args:
-        s1 (str)
-        s2 (str)
 
     Returns:
         int"""
     assert(len(s1) == len(s2))
     distance = 0
     for c in zip(s1, s2):
-        c0 = bin(ord(c[0]))[2:]
-        c1 = bin(ord(c[1]))[2:]
+        c0 = bin(c[0])[2:]
+        c1 = bin(c[1])[2:]
         c0 = "0"*(8-len(c0)) + c0
         c1 = "0"*(8-len(c1)) + c1
         distance += sum(b0 != b1 for b0, b1 in zip(c0, c1))
     return distance
 
 
-def get_keysize_candidates(ciphertext, candidate_num=4, range_min=1, range_max=40):
+def get_keysize_candidates(ciphertext: bytes, candidate_num: int = 4, range_min: int = 1, range_max: int = 40):
     best_keysizes = {}
     for n in range(range_min, min(range_max, int(len(ciphertext)/2))):
         ranges = list(ciphertext[i:i+n] for i in range(0, len(ciphertext), n))
@@ -56,7 +52,7 @@ def mgram_fitness(ciphertext, probs):
     return fitness.ngram_fitness(ciphertext, probs, n=1)
 
 
-def vary_xor_key(ciphertext, key, probs):
+def vary_xor_key(ciphertext: bytes, key: bytes, probs) -> bytes:
     for c in range(len(key)):
         alt_keys = []
         for i in range(255):
@@ -67,7 +63,7 @@ def vary_xor_key(ciphertext, key, probs):
     return key
 
 
-def break_repeating_xor(ciphertext, qprobs=None, mprobs=None):
+def break_repeating_xor(ciphertext: bytes, qprobs=None, mprobs=None) -> bytes:
     """Breaks the repeating XOR/Vigenère cipher
 
     Args:
@@ -79,7 +75,7 @@ def break_repeating_xor(ciphertext, qprobs=None, mprobs=None):
     if mprobs == None:
         mprobs = fitness.get_probs(n=1)
 
-    keysize_candidates = get_keysize_candidates(ciphertext)
+    keysize_candidates = get_keysize_candidates(ciphertext, candidate_num=10)
     keys = []
     cur_key = 0
 
@@ -92,13 +88,7 @@ def break_repeating_xor(ciphertext, qprobs=None, mprobs=None):
         blocks = list(ciphertext[i:n+i] for i in range(0, len(ciphertext), n))
         # Break the ciphertext into blocks, and solve them one char at a time
         for i in range(n):
-            block_i = ""
-            for block in blocks:
-                try:
-                    block_i += block[i]
-                except IndexError:
-                    # Sometimes the last block isn't as long as the others. Happens
-                    pass
+            block_i = b''.join([blocks[i] for i in range(len(blocks))])
             highest_cur_key = fitness.get_highest_fitness(
                 block_i, single_xor_keys, xor, fitness_func=mgram_fitness, probs=mprobs)
             keys[cur_key] += highest_cur_key[0]
@@ -108,7 +98,7 @@ def break_repeating_xor(ciphertext, qprobs=None, mprobs=None):
     return vary_xor_key(ciphertext, highest_key, qprobs)
 
 
-def xor(string, key):
+def xor(string: bytes, key: bytes):
     """Takes the XOR of a string using key.
 
     If the string is longer than the key, the
@@ -116,8 +106,8 @@ def xor(string, key):
     also accepts strings
 
     Args:
-        string (bytes): The ciphertext
-        key (bytes): The key
+        string: The ciphertext
+        key: The key
 
     Returns:
         bytes: The de/en-crypted text"""
