@@ -13,7 +13,7 @@ class TestAES(unittest.TestCase):
             state.append([])
             for j in range(random.randint(2, 20)):
                 state[i].append(random.randint(0, 255))
-        self.assertEqual(aes.inv_subBytes(aes.subBytes(state)), state)
+        self.assertEqual(aes.invSubBytes(aes.subBytes(state)), state)
 
     def test_shiftRows(self):
         state = [
@@ -29,7 +29,9 @@ class TestAES(unittest.TestCase):
             [3, 0, 1, 2]
         ]
         self.assertEqual(aes.shiftRows(state), finished_state)
-        self.assertEqual(aes.inv_shiftRows(aes.shiftRows(state)), state)
+        self.assertEqual(state[3][3], 3)
+        self.assertEqual(aes.invShiftRows(aes.shiftRows(state)), state)
+        self.assertEqual(aes.invShiftRows(finished_state), state)
 
     def test_MixCol(self):
         ins = [
@@ -49,7 +51,7 @@ class TestAES(unittest.TestCase):
             [77, 126, 189, 248]
         ]
         for i in range(len(ins)):
-            self.assertEqual(aes.MixCol(ins[i]), outs[i])
+            self.assertEqual(aes.mixCol(ins[i]), outs[i])
 
     def testInv_mixCol(self):
         ins = [
@@ -61,7 +63,20 @@ class TestAES(unittest.TestCase):
             [45, 38, 49, 76]
         ]
         for i in ins:
-            self.assertEqual(aes.inv_MixCols(aes.MixCol(i)), i)
+            self.assertEqual(aes.invMixCol(aes.mixCol(i)), i)
+
+    def testToBytes(self):
+        self.assertEqual(b"a"*16, aes.block2bytes(aes.bytes2block(b"a"*16)))
+
+    def testMixCols(self):
+        state = [
+                [0, 1, 2, 3],
+                [0, 1, 2, 3],
+                [0, 1, 2, 3],
+                [0, 1, 2, 3]
+        ]
+        self.assertEqual(aes.invMixCols(aes.mixCols(state)), state)
+
 
 
 if __name__ == '__main__':
