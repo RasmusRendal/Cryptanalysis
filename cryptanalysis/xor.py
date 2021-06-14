@@ -98,7 +98,7 @@ def break_repeating_xor(ciphertext: bytes, qprobs=None, mprobs=None) -> bytes:
     return vary_xor_key(ciphertext, highest_key, qprobs)
 
 
-def xor(string: bytes, key: bytes):
+def xor(plaintext: bytes, key: bytes, loop=True):
     """Takes the XOR of a string using key.
 
     If the string is longer than the key, the
@@ -106,13 +106,15 @@ def xor(string: bytes, key: bytes):
     also accepts strings
 
     Args:
-        string: The ciphertext
+        plaintext: The plaintext
         key: The key
 
     Returns:
         bytes: The de/en-crypted text"""
+    if not loop:
+        assert len(plaintext) == len(key), "Loop is disabled, and plaintext is " + str(len(plaintext)) + " while key is " + str(len(key))
     bytes_return = bytearray()
-    for i in zip(string, itertools.cycle(key)):
+    for i in zip(plaintext, itertools.cycle(key)):
         i0 = i[0]
         i1 = i[1]
         if type(i0) is str:
