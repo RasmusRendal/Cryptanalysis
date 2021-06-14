@@ -37,7 +37,6 @@ english_frequency = {
 
 def count_occurences(text):
     frequency_list = {}
-    total_occurences = 0
     for c in text:
         if c in frequency_list:
             frequency_list[c] += 1
@@ -118,19 +117,19 @@ if __name__ == "__main__":
     args = parser.parse_args()
     text = crypt_args.get_text(args)
 
-    frequency_list, total_occurences = count_occurences(text)
+    frequency_list = count_occurences(text)
 
     per_list = {}
     for c in frequency_list:
-        per_list[c] = frequency_list[c]/total_occurences
+        per_list[c] = frequency_list[c]/len(text)
 
     if args.ic:
         phi_o = 0
         for n in range(ord('A'), ord('Z')):
             c = chr(n)
             if c in frequency_list:
-                phi_o += (frequency_list[c]/total_occurences) * \
-                    ((frequency_list[c]-1)/(total_occurences-1))
+                phi_o += (frequency_list[c]/len(text)) * \
+                    ((frequency_list[c]-1)/(len(text)-1))
         print("Index of Coincidence: " + str(phi_o))
         print("Common IC's:")
         print("English plaintext: 0.066")
