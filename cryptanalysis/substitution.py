@@ -85,3 +85,13 @@ def substitution_solve(ciphertext: str, lang: str = 'en', max_failures: int = 10
     key = hill_climb(ciphertext, substitution_decode, key, max_failures)
 
     return (substitution_decode(ciphertext, key), key)
+
+if __name__ == "__main__":
+    import argparse
+    parser = argparse.ArgumentParser(description="Decrypt substitution ciphers")
+    parser.add_argument('--file', dest='file')
+    args = parser.parse_args()
+    with open(args.file, 'r') as ciphertext:
+        print(substitution_solve(ciphertext.read()))
+
+
